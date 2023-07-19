@@ -4,7 +4,7 @@ import 'final.dart';
 import 'home_page.dart';
 import 'quiz.dart';
 
-void main() {
+ void main() {
   runApp(const myApp());
 }
 
@@ -15,7 +15,7 @@ class myApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       
-       initialRoute: '/',
+      initialRoute: '/',
 
       routes: {
       '/':(context)=>HomePage(),
