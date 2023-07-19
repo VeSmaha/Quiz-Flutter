@@ -20,6 +20,7 @@ class Final extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0XFFE7D7FF),
+        fontFamily: 'Slabo',
       ),
       home: Scaffold(
         //appBar: AppBar(
@@ -29,41 +30,44 @@ class Final extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Resultado', style: TextStyle(fontSize: 20)),
-                Text('Você acertou $acertos de 10 perguntas',
-                    style: TextStyle(fontSize: 20)),
-                SizedBox(
-                  width: double.infinity,
-                  child: Transform.translate(
-                    offset: Offset(0, -100),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(255, 88, 24, 167),
-                              padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              )),
-                          child: Text(
-                            'Jogar',
-                            style: TextStyle(fontSize: 30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('Resultado', style: TextStyle(fontSize: 20)),
+                  Text('Você acertou $acertos de 10 perguntas',
+                      style: TextStyle(fontSize: 25)),
+                      Transform.translate(
+                      offset: Offset(0, -100),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color.fromARGB(255, 88, 24, 167),
+                                padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                )),
+                            child: Text(
+                              'Jogar',
+                              style: TextStyle(fontSize: 30),
+                            ),
+                            onPressed: () {
+                                  Navigator.push(
+                                        context,
+                                          MaterialPageRoute(builder: (context) => Quiz()),
+                                                 );
+        
+                              
+                            }
                           ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/');
-                          },
-                        ),
+                      ),
                     ),
-                  ),
-                )
-              ],
+                ],
+              ),
+              
             ),
-          ),
         ),
-      ),
+    ),
     );
   }
 }

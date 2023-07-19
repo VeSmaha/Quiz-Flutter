@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
      
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0XFFE7D7FF),
+        fontFamily: 'Slabo',
       ),
       home: Scaffold(
         //appBar: AppBar(
@@ -47,12 +48,13 @@ class HomePage extends StatelessWidget {
                       backgroundColor: Color.fromARGB(255, 88, 24, 167),
                       padding: EdgeInsets.fromLTRB(40,20,40,20),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(30),
                     )
                     ),
                     child:Text('Jogar', style: TextStyle(
-                      fontSize: 30
-                    ),),
+                      fontSize: 30,
+                    
+                    )),
                     
                     onPressed: () {
                       Navigator.pushNamed(context, '/quiz');

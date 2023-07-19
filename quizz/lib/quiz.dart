@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'final.dart';
 import 'main.dart';
 import 'home_page.dart';
+import 'dados.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -13,144 +14,56 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  int perguntaN = 1;
-  int acertos = 0;
-  int erros = 0;
+  int perguntaN = 0;//identifica a pergunta
+  int acertos = 0;//conta acertos
+  int erros = 0;//conta erros
+
+
   @override
   Widget build(BuildContext context) {
-// final List? quiz;
 
-    //lista = base de dados para o quiz
-//quiz variavel do tipo lista
-    List quiz = [
-      //dentro da lista
-      //dentro tem um map com perg e resp
-      //dentro das respostas tem uma list de alternativas
-      {
-        //key      valor
-        "pergunta":
-            "Qual a poção que faz quem toma-la revelar seus maiores segredos?",
-        "respostas": [
-          "Elixir", //1
-          "Polissuco", //2
-          "Amortentia", //3
-          "Veritaserum" //4
-        ],
-        "alternativa_correta": 4,
-      },
-    ];
-    quiz.add({
-      //key      valor
-      "pergunta":
-          "Qual a criatura que só pode ser visto por quem testemunhou a morte através dos próprios olhos?",
-      "respostas": [
-        "Testrálio", //1
-        "Unicórnio", //2
-        "Dragão", //3
-        "Sereia" //4
-      ],
-      "alternativa_correta": 1,
-    });
-    quiz.add({
-      //key      valor
-      "pergunta":
-          "Qual é a posição que Harry Potter joga no time de quadribol da Grifinória?",
-      "respostas": [
-        "Batedor", //1
-        "Goleiro", //2
-        "Apanhador", //3
-        "Artilheiro" //4
-      ],
-      "alternativa_correta": 3,
-    });
-      quiz.add({
-      //key      valor
-      "pergunta":
-          "Qual é o nome do animal de estimação de Rubeus Hagrid?",
-      "respostas": [
-        "Bichento", //1
-        "Bicuço", //2
-        "Norberto", //3
-        "Edwiges" //4
-      ],
-      "alternativa_correta": 2,
-    });
-      quiz.add({
-      //key      valor
-      "pergunta":
-          "Qual é o feitiço usado para repelir os Dementadores?",
-      "respostas": [
-        "Expelliarmus", //1
-        "Wingardium Leviosa", //2
-        "Expecto Patronum", //3
-        "Avada Kedavra" //4
-      ],
-      "alternativa_correta": 3,
-    });
-    quiz.add({
-      //key      valor
-      "pergunta":
-          "Qual é a melhor casa de Hogwarts?",
-      "respostas": [
-        "Grifinória", //1
-        "Lufa-Lufa", //2
-        "Corvinal", //3
-        "Sonserina" //4
-      ],
-      "alternativa_correta": 4,
-    });//7
-     quiz.add({
-      //key      valor
-      "pergunta":
-          "Qual é o nome completo do personagem principal, Harry Potter?",
-      "respostas": [
-        "Harry James Potter", //1
-        "Harry Alvo Potter", //2
-        "Harry Tiago Potter", //3
-        "Harry Severo Potter" //4
-      ],
-      "alternativa_correta": 1,
-    });
-     quiz.add({
-      //key      valor
-      "pergunta":
-          "Qual vilarejo os alunos de Hogwarts visitam no terceiro filme?",
-      "respostas": [
-        "Beco Diagonal", //1
-        "Hogsmeade", //2
-        "Godric's Hollow", //3
-        "Londres" //4
-      ],
-      "alternativa_correta": 2,
-    });
-     quiz.add({
-      //key      valor
-      "pergunta":
-          "Qual o nome do mapa usado por Harry no terceiro filme, dado pelos irmãos Wesley?",
-      "respostas": [
-        "Mapa Invisívrl", //1
-        "Mapa da Lua", //2
-        "Mapa Mágico", //3
-        "Mapa do Maroto" //4
-      ],
-      "alternativa_correta": 4,
-    });
-     quiz.add({
-      //key      valor
-      "pergunta":
-          "Qual desses não eram uma das 7 Horcruxes de Voldemort?",
-      "respostas": [
-        "Diário de Tom Riddle", //1
-        "Anel de Marvolo Gaunt", //2
-        "Cobra Nagini", //3
-        "Varinha das varinhas" //4
-      ],
-      "alternativa_correta": 4,
-    });
 
+    quiz.shuffle();//embaralha elementos da lista
+
+//embaralha as respostas de cada pergunta
+
+//percorre cada elemento do quiz
+  quiz.forEach((element) {
+    //quarda o index da alternativa correta do elemento
+    int altCorreta = element['alternativa_correta'];
+
+    //lista de respostas do elemento
+    List respostas = element['respostas'];
+    //quarda a string da resposta correta usando o index da alternativa correta
+    String respcorreta = element['respostas'][altCorreta-1];
+
+
+    //embaralha respostas
+    respostas.shuffle();
+    int i=1;
+    //percore respostas
+      respostas.forEach((element) {
+        //se a resposta for igual a alternativa correta
+        if(element==respcorreta){
+          //alternativa correta recebe o index da resposta
+          altCorreta = i;
+        }
+        //incrementa o i
+        i++;
+      }
+      );
+
+       element['alternativa_correta'] = altCorreta;
+  });
+
+
+//funçao que realiza a logica, recebe o identificador da resposta
+//
     void respondeu(int respostaN) {
+      //seta o state
       setState(() {
-        if (quiz[perguntaN - 1]['alternativa_correta'] == respostaN) {
+  // pega a pergunta do quiz, se o numero da resposta for igual a resp correta
+        if (quiz[perguntaN]['alternativa_correta'] == respostaN) {
           print('acertou');
           acertos++;
         } else {
@@ -158,12 +71,12 @@ class _QuizState extends State<Quiz> {
           erros++;
         }
         print('acetos $acertos, erros $erros');
-        if (perguntaN == 10) {
+        if (perguntaN == 9) {
           print('quizz terminado');
           Navigator.pushNamed(context, '/final',
-              arguments: Arguments(acertos));
+              arguments: Arguments(acertos));//manda os acertos por parametro
         } else {
-          perguntaN++;
+          perguntaN++;//icrementa pra mudar a pergunta
         }
       });
     }
@@ -171,6 +84,7 @@ class _QuizState extends State<Quiz> {
     return MaterialApp(
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0XFFE7D7FF),
+        fontFamily: 'Slabo',
       ),
       home: Scaffold(
         appBar: AppBar(
@@ -189,19 +103,21 @@ class _QuizState extends State<Quiz> {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Align(
-                  //  alignment: Alignment.topLeft,
-                  child: Text(
-                'Pergunta : ' + quiz[perguntaN - 1]['pergunta'],
-                style: TextStyle(fontSize: 20),
-              )),
+                   Container(
+                    width:300,
+                     child: Text(
+                                   '  ' + quiz[perguntaN]['pergunta'],
+                                   style: TextStyle(fontSize: 20),
+                                   textAlign: TextAlign.center,
+                                 ),
+                   ),
               //para padronizar os botoes em tam da tela ate a margen
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 88, 24, 167),
-                    padding: EdgeInsets.fromLTRB(120, 20, 120, 20),
+                    padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -210,7 +126,7 @@ class _QuizState extends State<Quiz> {
                     respondeu(1);
                   },
                   child: Text(
-                    quiz[perguntaN - 1]['respostas'][0],
+                    quiz[perguntaN]['respostas'][0],
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -220,7 +136,7 @@ class _QuizState extends State<Quiz> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 88, 24, 167),
-                      padding: EdgeInsets.fromLTRB(120, 20, 120, 20),
+                      padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -229,7 +145,7 @@ class _QuizState extends State<Quiz> {
                       respondeu(2);
                     },
                     child: Text(
-                      quiz[perguntaN - 1]['respostas'][1],
+                      quiz[perguntaN]['respostas'][1],
                       style: TextStyle(fontSize: 20),
                     )),
               ),
@@ -238,7 +154,7 @@ class _QuizState extends State<Quiz> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 88, 24, 167),
-                      padding: EdgeInsets.fromLTRB(120, 20, 120, 20),
+                      padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -247,7 +163,7 @@ class _QuizState extends State<Quiz> {
                       respondeu(3);
                     },
                     child: Text(
-                      quiz[perguntaN - 1]['respostas'][2],
+                      quiz[perguntaN]['respostas'][2],
                       style: TextStyle(fontSize: 20),
                     )),
               ),
@@ -256,7 +172,7 @@ class _QuizState extends State<Quiz> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 88, 24, 167),
-                      padding: EdgeInsets.fromLTRB(120, 20, 120, 20),
+                      padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                       ),
@@ -265,7 +181,7 @@ class _QuizState extends State<Quiz> {
                       respondeu(4);
                     },
                     child: Text(
-                      quiz[perguntaN - 1]['respostas'][3],
+                      quiz[perguntaN]['respostas'][3],
                       style: TextStyle(fontSize: 20),
                     )),
               ),
